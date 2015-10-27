@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Display A Joke</string>
+    <string name="title_activity_display_ajoke">DisplayAJokeActivity</string>
+    <string name="action_settings">Settings</string>
+</resources>

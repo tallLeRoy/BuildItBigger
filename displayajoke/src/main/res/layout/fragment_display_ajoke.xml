@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:showIn="@layout/activity_display_ajoke"
+    tools:context="com.example.leroy.displayajoke.DisplayAJokeActivityFragment">
+
+    <TextView
+        android:id="@+id/jokeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="No joke for YOU!"
+        android:theme="@style/AppTheme.Headline" />
+
+    <TextView
+        android:id="@+id/jokeSource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Play on Sienfeld's Soup Nazi admonition."
+        android:layout_below="@+id/jokeTextView"
+        android:theme="@style/AppTheme.Source" />
+        />
+
+</RelativeLayout>
