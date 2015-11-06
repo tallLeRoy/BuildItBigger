@@ -25,8 +25,8 @@ task clean(type: Delete) {
 
 
 task testAppWithLocalServer (dependsOn: [':backend:appengineRun', ':app:connectedCheck', ':backend:appengineStop'  ]) {
-    tasks.findByPath(':app:connectedCheck').shouldRunAfter ':backend:appengineRun'
-    tasks.findByPath(':backend:appengineStop').shouldRunAfter ':app:connectedCheck'
+    tasks.findByPath(':app:connectedCheck').mustRunAfter ':backend:appengineRun'
+    tasks.findByPath(':backend:appengineStop').mustRunAfter ':app:connectedCheck'
 
     evaluationDependsOn(':backend')
     project(':backend') {
