@@ -1,15 +1,11 @@
 package com.example.leroy.builditbigger;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.example.JokesForAll;
-import com.example.leroy.displayajoke.DisplayAJokeActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -56,13 +52,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view){
-        String [] jokeWithSource = new JokesForAll().getAJokeWithSource();
-        String joke = jokeWithSource[0];
-        String source = jokeWithSource[1];
-        Intent intent = new Intent(this, DisplayAJokeActivity.class);
-        intent.putExtra("joke", joke);
-        intent.putExtra("source", source);
-        startActivity(intent);
+        new EndpointsAsyncTask().execute(this);
+
+//        String [] jokeWithSource = new JokesForAll().getAJokeWithSource();
+//        String joke = jokeWithSource[0];
+//        String source = jokeWithSource[1];
+//        Intent intent = new Intent(this, DisplayAJokeActivity.class);
+//        intent.putExtra("joke", joke);
+//        intent.putExtra("source", source);
+//        startActivity(intent);
 
 //        Toast.makeText(this,
 //                new JokesForAll().getAJoke()[0],

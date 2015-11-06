@@ -5,13 +5,13 @@ package com.example.LeRoy.builditbigger.backend;
  */
 public class MyBean {
 
-    private String myData;
+    private String[] myData;
 
-    public String getData() {
+    public String[] getData() {
         return myData;
     }
 
-    public void setData(String data) {
+    public void setData(String[] data) {
         myData = data;
     }
 }

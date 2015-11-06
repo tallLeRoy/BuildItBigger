@@ -1,5 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+
 buildscript {
     repositories {
         jcenter()
@@ -20,4 +21,17 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+
+task testAppWithLocalServer (dependsOn: [':backend:appengineRun', ':app:connectedCheck', ':backend:appengineStop'  ]) {
+    tasks.findByPath(':app:connectedCheck').shouldRunAfter ':backend:appengineRun'
+    tasks.findByPath(':backend:appengineStop').shouldRunAfter ':app:connectedCheck'
+
+    evaluationDependsOn(':backend')
+    project(':backend') {
+        appengine {
+            daemon true
+        }
+    }
 }
