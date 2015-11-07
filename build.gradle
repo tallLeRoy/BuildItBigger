@@ -23,7 +23,9 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-
+// this task will run all of the connected tests using the development app engine
+// and a running AVD emulator. Start the AVD emulator and leave it runnung
+// before running this task
 task testAppWithLocalServer (dependsOn: [':backend:appengineRun', ':app:connectedCheck', ':backend:appengineStop'  ]) {
     tasks.findByPath(':app:connectedCheck').mustRunAfter ':backend:appengineRun'
     tasks.findByPath(':backend:appengineStop').mustRunAfter ':app:connectedCheck'
