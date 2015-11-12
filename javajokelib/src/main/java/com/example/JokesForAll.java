@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class JokesForAll {
@@ -23,16 +25,28 @@ public class JokesForAll {
     // end translation section
 
 
-    private static Random randomGenerator = null;
+    private static Random mRandomGenerator = null;
+    private List<Integer> mUsed = null;
 
     public JokesForAll() {
-        if (randomGenerator == null) {
-            randomGenerator = new Random(System.currentTimeMillis());
+        if (mRandomGenerator == null) {
+            mRandomGenerator = new Random(System.currentTimeMillis());
         }
+        mUsed = new ArrayList<>();
     }
 
     public String[] getAJokeWithSource() {
-       return jokes[randomGenerator.nextInt(jokes.length)];
+        // present the jokes in a random order without repeating
+        if (mUsed.size() == jokes.length) {
+            // we have given out all of the jokes, start over again
+            mUsed.clear();
+        }
+        Integer index;
+        do {
+            index = mRandomGenerator.nextInt(jokes.length);
+        } while ( mUsed.contains(index) );
+        mUsed.add(index);
+        return jokes[index];
     }
 
     public String getAJoke() { return getAJokeWithSource()[0]; }

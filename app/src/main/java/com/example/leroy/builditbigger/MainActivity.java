@@ -6,9 +6,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 
 public class MainActivity extends AppCompatActivity {
+    private ProgressBar mProgressBar = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar1);
 
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -52,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view){
-        new EndpointsAsyncTask().execute(this);
+        mProgressBar.setIndeterminate(true);
+        mProgressBar.setVisibility(View.VISIBLE);
+        new EndpointsAsyncTask().execute(this, mProgressBar);
 
 //        String [] jokeWithSource = new JokesForAll().getAJokeWithSource();
 //        String joke = jokeWithSource[0];

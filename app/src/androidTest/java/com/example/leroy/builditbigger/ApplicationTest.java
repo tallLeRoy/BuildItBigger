@@ -3,6 +3,7 @@ package com.example.leroy.builditbigger;
 import android.app.Application;
 import android.content.Context;
 import android.test.ApplicationTestCase;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void testAsyncTask() throws Exception {
         EndpointsAsyncTask eat = new EndpointsAsyncTask();
-        eat.execute((Context)null, "local dev app server");
+        eat.execute((Context)null, (ProgressBar)null, "local dev app server");
         List<String> jokeWithSource = eat.get();
         if (jokeWithSource == null) {
             fail("EndpointsAsyncTask result was null");

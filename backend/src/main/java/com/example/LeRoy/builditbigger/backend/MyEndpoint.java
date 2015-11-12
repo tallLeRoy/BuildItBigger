@@ -24,6 +24,7 @@ import com.google.api.server.spi.config.ApiNamespace;
         )
 )
 public class MyEndpoint {
+    private static JokesForAll mJokesForAll = null;
 
     /**
      * A simple endpoint method that takes a name and says Hi back
@@ -38,8 +39,10 @@ public class MyEndpoint {
 
     @ApiMethod(name = "grabAJoke")
     public MyBean grabAJoke() {
-        JokesForAll jokesForAll = new JokesForAll();
-        String[] joke = jokesForAll.getAJokeWithSource();
+        if (mJokesForAll == null) {
+            mJokesForAll = new JokesForAll();
+        }
+        String[] joke = mJokesForAll.getAJokeWithSource();
 
         MyBean response = new MyBean();
         response.setData(joke);

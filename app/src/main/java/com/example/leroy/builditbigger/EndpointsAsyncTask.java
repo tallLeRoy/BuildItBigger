@@ -3,6 +3,8 @@ package com.example.leroy.builditbigger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.leroy.builditbigger.backend.myApi.MyApi;
 import com.example.leroy.displayajoke.DisplayAJokeActivity;
@@ -12,6 +14,9 @@ import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,6 +26,7 @@ import java.util.List;
 public class EndpointsAsyncTask extends AsyncTask<Object, Void, List<String> > {private static MyApi myApiService = null;
     public static final String IO_ERROR = "-- Error --";
     private Context context;
+    private ProgressBar mProgressBar = null;
 
     @Override
     protected List<String> doInBackground(Object... params) {
@@ -29,7 +35,7 @@ public class EndpointsAsyncTask extends AsyncTask<Object, Void, List<String> > {
         // add a second parameter to run against the local test app server
 
         if(myApiService == null) {  // Only do this once
-            if (params.length > 1) {
+            if (isLocalAppServerRunning()) {
                 builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
                     // options for running against local devappserver
@@ -44,6 +50,7 @@ public class EndpointsAsyncTask extends AsyncTask<Object, Void, List<String> > {
                     });
                     // end options for devappserver
             } else {
+                // use the deployed appspot server
                 builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                         .setRootUrl("https://builditbigger-1118.appspot.com/_ah/api/");
             }
@@ -55,7 +62,7 @@ public class EndpointsAsyncTask extends AsyncTask<Object, Void, List<String> > {
         }
 
         context = (Context)params[0];
-//        String name = params[0].second;
+        mProgressBar = (ProgressBar)params[1];
 
         try {
             return myApiService.grabAJoke().execute().getData();
@@ -76,8 +83,35 @@ public class EndpointsAsyncTask extends AsyncTask<Object, Void, List<String> > {
                 intent.putExtra("joke", joke);
                 intent.putExtra("source", source);
                 context.startActivity(intent);
+                mProgressBar.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    private boolean isLocalAppServerRunning() {
+        boolean exists = false;
+        Socket sock = null;
+        try {
+            SocketAddress sockaddr = new InetSocketAddress("10.0.2.2", 8080);
+            // Create an unbound socket
+            sock = new Socket();
+
+            // This method will block no more than timeoutMs.
+            // If the timeout occurs, SocketTimeoutException is thrown.
+            int timeoutMs = 500;   // 1/2 second
+            sock.connect(sockaddr, timeoutMs);
+            exists = true;
+        }catch(Exception e) {
+        } finally {
+            if (sock != null) {
+                try {
+                    sock.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return exists;
     }
 
 }
